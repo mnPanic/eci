@@ -1,4 +1,4 @@
-# intro
+# Class 1 - Introduction, case for type systems
 
 ## cronograma
 
@@ -153,6 +153,8 @@ Tres approaches a program verification
 
     Idea interesante: coq te da un proof tree, pero problema: qué falta?
 
+    típicamente prueba functional correctness
+
 2. **Dynamic**: runtime verification or model checking
 
     Log analysis, tests, monitoring, logical property checking in a model of the system.
@@ -172,3 +174,110 @@ Tres approaches a program verification
     da falsos positivos: mi análisis detectó un problema pero en realidad no hay ninguno (molesto)
 
     hay veces que es unsound, por ej. java con generics (incluso type checked crashea)
+
+### Dynamic - Model checking
+
+no chequeamos el código, sino que propiedades sobre un modelo del código
+
+se escriben cosas más abstractas, como "no hay deadlocks"
+
+protocolos de consenso: queremos chequear que se alcanza el consenso eventualmente (o falla).
+
+son difíciles de escribir directamente sobre el código, pero fáciles sobre un modelo (por ej un grafo reachability es fácil)
+
+usualmente propiedades de liveness, safety, etc. más generales que funcionales (como en deductive verification). 
+
+### Rice's theorem
+
+Es un teorema matemático (lo vemos en LyC)
+
+anything interesting one wants to know about an expressive language is undecidable!
+
+si queremos probar propiedades, en general son indecidibles. Hacemos best effort. El sistema a veces no responde. Por ej. halting problem.
+
+### En el mundo real
+
+Después de un bug del pentium, metieron model checking en el hw en intel. Armaron su propio model checker.
+
+Se usa mucho en hardware: avionics, railways, embedded systems
+
+### Model checking de PLs
+
+Go huge or go home. O tu model checker escala o no vale la pena intentar publicarlo.
+
+### Sumarización
+
+Great approaches, great tools need great people!
+
+- Deductive
+
+    No para GI developers (normal staff) coders, even superstars need time (y money)
+
+- Dynamic
+    - Ni sound ni complete.
+    - check model not code
+    - dificil de escalar
+    - escribir propiedades es demandante
+- Static que onda?
+
+### Static verification
+
+Es el menos interesante
+
+- clousot: usa interpretación abstracta (una forma de razonar en modelos con argumentos de punto fijo)
+  - fija un conjunto de propiedades y chequea el código para ellas
+- facebook infer: separation logic
+  - usa otra técnica, separation logic, que está buena para razonar del heap y referencias.
+  - Muy bueno para mem violations y races
+  - le das el código a infer y chequea una una lista de propiedades
+- mem violations, null pointers, floating point precision, divisions by zero, buffer or array overruns
+
+y el GI coder solo tiene que interpretar el output de la herramienta.
+
+"computer says no- your code no good"
+
+problema: sobre aproximan (para decidir propiedades indecidibles)
+dan muchos falsos positivos
+
+solución para los falsos positivos: defensive programming para convencer al analizador. Pero es una fiaca.
+
+computational thinking: Modularity. Break your problem in subproblems (d&q), pensar en condiciones, expected input, output, etc.
+
+### Type systems
+
+y pero que onda con los type systems?! es el least demanding approach. Hablamos de qué trata esto [mañana](class2-type-systems.md).
+
+Identifica una mala situación (data type systems) no asignás tipos incompatibles (no podes asignar un bool a un int). Se definen esas reglas y se verifica el código con respecto a ellas.
+
+El compilador se asegura de que no introducís bugs!
+
+Este es el approach de rust. Que el compilador ayude!
+
+Se puede hacer c + model checking + static analysis.
+
+Dream: well typed programs do not go wrong
+
+- Motto de Robin Milner
+  - Theory of Type Polymorphism in Programing
+  - El abstract es **todo** lo que se tiene que entender de un type system.
+  - rust: macros
+  - haskell: core probado correcto, módulos compuestos, composición probada correcta
+  - luego las reglas se prueban sobre las reglas de tipado
+  - en el 78 se prueba *semánticamente*, sobre las reglas de semántica
+    - no es dirigido por la sintaxis (se tiene que hacer por punto fijo)
+  - después se hizo syntactic type soundness
+    - que si es dirigido por la sintaxis, solamente inducción estructural sobre las reglas
+
+problema de java: null es compatible siempre con cualquier tipo, lo que rompe soundness del java type system (con generics).
+
+Si necesita un tipo Top que herede de cualquier tipo, y ahí está null, entonces se puede asignar null a cualquier cosa.
+
+! Con subtipado no hay dirigido por la sintaxis. Porque con cada regla también se puede usar un subtipado. Se vuelve a pruebas semánticas, con una técnica muy común que se llama *logical relations*. Los conjuntos de los tipos están relacionados y esta relación tiene que ser consistente.
+
+hay back and forth de formas dinámicas o sintácticas de demostrar type soundness.
+
+se hace una sola vez cuando se definen las reglas.
+
+#### Limitaciones
+
+- Para controlar data races? se puede pero es restrictiv
