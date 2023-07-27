@@ -1,0 +1,3 @@
+- la gente que no cursó plp, tleng, ing2 no debe estar entendiendo nada
+- no me gustó nada mungo, demasiado técnico
+    - definitivamente no hacía falta explicar todo el typechecking ahí. Durísimo.

@@ -222,7 +222,7 @@ Escuelas de presentación de
   en realidad los compiladores no compilan cosas que no tipan
   como en plp que se asume que está bien tipado en las reglas semánticas
 
-- UK school (robert milner): primero decís la semántica operacional, después controlas los programas con un type system
+- UK school (robert milner): primero sintaxis, después decís la semántica operacional, después controlas los programas con un type system
 
   para hacer highlight de las funcionalidades de type system, mostrás qué se podría romper y de ahí inferís los tipos
 
