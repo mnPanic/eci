@@ -1,0 +1,24 @@
+typestate ServerProtocol {
+    Init = {
+        boolean start(java.net.Socket): <true: Idle, false: end>
+    }
+    Idle = {
+        void close(): end,
+        boolean hasRequest():
+            <true: WaitForFilename, false: Idle>
+    }
+    WaitForFilename = {
+        String readFileName(): SearchFile
+    }
+    SearchFile = {
+        boolean fileExists(String): 
+            <true: SendFile, false: SendFileEnd>
+    }
+    SendFile = {
+        void sendByte(byte): SendFile,
+        void sendFileEnd(): Idle
+    }
+    SendFileEnd = {
+        void sendFileEnd(): Idle
+    }
+}
