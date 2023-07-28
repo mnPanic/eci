@@ -4,3 +4,5 @@ javac *.java -classpath ../jatyc.jar
 
 java FileServer
 java FileClient
+
+te deja leer byte por byte O por línea. si arrancaste a leer byte por byte, así hasta el final de la línea.
