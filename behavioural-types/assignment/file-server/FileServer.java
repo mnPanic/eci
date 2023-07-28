@@ -34,7 +34,7 @@ public class FileServer {
     if (filename == null) {
       return "";
     }
-    
+
     return filename;
   }
 
@@ -46,7 +46,11 @@ public class FileServer {
     this.out.write(0);
   }
 
+  // TODO: Cliente manda close al server
+
   public void sendByte(byte b) throws Exception {
+    System.out.println(String.format("sending %02X", b));
+
     out.write(b);
   }
 

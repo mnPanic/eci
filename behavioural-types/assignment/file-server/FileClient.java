@@ -28,7 +28,8 @@ public class FileClient {
 
   public boolean readNextByte() throws Exception {
     lastByte = in.read();
-    System.out.print(lastByte);
+    Integer integer = Integer.valueOf(lastByte);
+    System.out.print(String.format("%02X", integer.byteValue()));
 
     return lastByte != 0;
   }
