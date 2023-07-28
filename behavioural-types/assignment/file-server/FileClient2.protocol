@@ -1,0 +1,13 @@
+typestate FileClient2Protocol {
+    Init = {
+        boolean start(): <false: end, true: Idle>
+    }
+    WaitForRead = {
+        boolean readNextLine(): <false: Idle, true: WaitForRead>,
+        boolean readNextByte(): <false: Idle, true: WaitForRead>
+    }
+    Idle = {
+        void close(): end,
+        void request(String): WaitForRead
+    }
+}
