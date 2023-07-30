@@ -22,7 +22,9 @@ public class FileClient {
   }
 
   public void request(String filename) throws Exception {
+    System.out.println("[client] Sending REQUEST command");
     out.write("REQUEST\n".getBytes());
+    System.out.println(String.format("[client] Sending filename '%s'", filename));
     out.write((filename+"\n").getBytes());
   }
 
@@ -33,6 +35,7 @@ public class FileClient {
   }
 
   public void close() throws Exception {
+    System.out.println("[client] Sending CLOSE command");
     out.write("CLOSE\n".getBytes());
     socket.close();
     in.close();

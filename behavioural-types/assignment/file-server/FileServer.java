@@ -28,14 +28,16 @@ public class FileServer {
     }
 
     if (command.equals("REQUEST")) {
+      System.out.println("[server] Received client request");
       return true;
     }
 
     if (command.equals("CLOSE")) {
+      System.out.println("[server] Received client close");
       return false;
     }
 
-    throw new Exception("invalid command received");
+    throw new Exception("received invalid command");
   }
 
   public String readFileName() throws Exception {
@@ -44,6 +46,7 @@ public class FileServer {
       return "";
     }
 
+    System.out.println("[server] Received filename " + filename);
     return filename;
   }
 
@@ -52,12 +55,12 @@ public class FileServer {
   }
 
   public void sendFileEnd() throws Exception {
-    System.out.println("sending file end");
+    System.out.println("[server] Sending file end (0)");
     this.out.write(0);
   }
 
   public void sendByte(byte b) throws Exception {
-    System.out.println(String.format("sending %s", (char) b));
+    System.out.println(String.format("[server] Sending %s", (char) b));
 
     out.write(b);
   }
