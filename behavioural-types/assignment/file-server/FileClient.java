@@ -28,13 +28,12 @@ public class FileClient {
 
   public boolean readNextByte() throws Exception {
     lastByte = in.read();
-    Integer integer = Integer.valueOf(lastByte);
-    System.out.print(String.format("%02X", integer.byteValue()));
-
+    System.out.print((char) lastByte);
     return lastByte != 0;
   }
 
   public void close() throws Exception {
+    out.write("CLOSE\n".getBytes());
     socket.close();
     in.close();
     out.close();

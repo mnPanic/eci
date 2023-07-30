@@ -16,32 +16,35 @@ public class FileServerThread extends Thread {
       }
 
       System.out.println("File server started!");
-      if (!server.hasRequest()) {
-        server.close();
-        return;
+      while(server.hasRequest()) {
+        String fileName = server.readFileName();
+        if (!server.fileExists(fileName)) {
+          server.sendFileEnd();
+          break;
+        }
+       
+      char[] fileContent = "first line\nsecond line\nbye!".toCharArray();
+
+      /* This check makes no sense, but without it jatyc returns the error
+      
+        file-server/FileServerThread.java:1: error: Cannot access field [length] of null
+        import java.net.*;
+        ^
+        1 error
+      
+      */
+      if (fileContent == null) {
+        throw new Exception("unexpected null file content");
       }
-
-      String fileName = server.readFileName();
-      if (!server.fileExists(fileName)) {
-        server.sendFileEnd();
-        server.close();
-        return;
-      }
-
-      byte[] fileContent = {
-        (byte) 0xDE,
-        (byte) 0xAD,
-        (byte) 0xBE,
-        (byte) 0xEF,
-      };
-
-      for (byte b : fileContent) {
-        server.sendByte(b);
+    
+      for (char c : fileContent) {
+        server.sendByte((byte) c);
       }
 
       server.sendFileEnd();
-    
-      server.close();
+    }
+  
+    server.close();
     } catch (Exception e) {
       e.printStackTrace();
     }

@@ -23,10 +23,19 @@ public class FileServer {
 
   public boolean hasRequest() throws Exception {
     String command = in.readLine();
-    if (command != null && command.equals("REQUEST")) {
+    if (command == null) {
+      throw new Exception("unexpected end of stream");
+    }
+
+    if (command.equals("REQUEST")) {
       return true;
     }
-    return false;
+
+    if (command.equals("CLOSE")) {
+      return false;
+    }
+
+    throw new Exception("invalid command received");
   }
 
   public String readFileName() throws Exception {
@@ -43,13 +52,12 @@ public class FileServer {
   }
 
   public void sendFileEnd() throws Exception {
+    System.out.println("sending file end");
     this.out.write(0);
   }
 
-  // TODO: Cliente manda close al server
-
   public void sendByte(byte b) throws Exception {
-    System.out.println(String.format("sending %02X", b));
+    System.out.println(String.format("sending %s", (char) b));
 
     out.write(b);
   }
