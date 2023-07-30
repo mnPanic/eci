@@ -1,12 +1,23 @@
+# ECI 2023 N2 - Behavioural Types - Assignment
+
+- Name: Manuel Panichelli
+- L.U: 72/18
+- Email: panicmanu@gmail.com
+
+## Usage instructions
+
+To run jatyc and compile the classes, from the root of the assignment do:
+
+```bash
 java -jar checker-framework-3.28.0/checker/dist/checker.jar -classpath jatyc.jar -processor jatyc.JavaTypestateChecker file-server/*.java
+```
 
+You should get no output.
 
-java -jar ../checker-framework-3.28.0/checker/dist/checker.jar -classpath ../jatyc.jar -processor jatyc.JavaTypestateChecker *.java
+To run the classes, go to the `file-server` directory and run the `FileServer` and `FileClient` classes in different terminals like so
 
-javac *.java -classpath ../jatyc.jar
-
-
+```bash
 java FileServer
 java FileClient
-
-te deja leer byte por byte O por línea. si arrancaste a leer byte por byte, así hasta el final de la línea.
+java FileClient2
+```
