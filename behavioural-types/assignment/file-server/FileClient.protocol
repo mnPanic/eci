@@ -1,0 +1,12 @@
+typestate ClientProtocol {
+    Init = {
+        boolean start(): <false: end, true: Idle>
+    }
+    WaitForByte = {
+        boolean readNextByte(): <false: Idle, true: WaitForByte>
+    }
+    Idle = {
+        void close(): end,
+        void request(String): WaitForByte
+    }
+}
